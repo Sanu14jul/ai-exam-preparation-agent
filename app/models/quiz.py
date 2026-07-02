@@ -1,8 +1,14 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 
 class QuizRequest(BaseModel):
-    exam: str = Field(..., example="UPSC")
-    subject: str = Field(..., example="History")
-    difficulty: str = Field(..., example="Medium")
-    number_of_questions: int = Field(..., ge=1, le=20, example=5)
+
+    exam: str
+
+    subject: str
+
+    difficulty: str
+
+    number_of_questions: int
+
+    context: str | None = None

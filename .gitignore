@@ -5,6 +5,9 @@ build/
 dist/
 wheels/
 *.egg-info
+chroma_db/
+.vscode/
+*.pyc
 
 # Virtual environments
 .venv

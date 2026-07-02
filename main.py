@@ -1,23 +1,28 @@
 from fastapi import FastAPI
 
-from app.api.routes.study_plan import router as study_plan_router
-from app.api.routes.quiz import router as quiz_router
+from app.api.routes.agent import router as agent_router
+from app.api.routes.upload import router as upload_router
+from app.api.routes.auth import router as auth_router
+from app.api.routes.me import router as me_router
+from app.api.routes.history import router as history_router
 
 
 app = FastAPI(
     title="AI Exam Preparation Agent",
     version="1.0.0",
-    description="An AI-powered study assistant for competitive exam aspirants."
 )
 
-# Register Routes
-app.include_router(study_plan_router)
-app.include_router(quiz_router)
+
+app.include_router(agent_router)
+app.include_router(upload_router)
+app.include_router(auth_router)
+app.include_router(me_router)
+app.include_router(history_router)
 
 
 @app.get("/")
-def home():
+def root():
+
     return {
-        "message": "Welcome to AI Exam Preparation Agent 🚀",
-        "status": "Running Successfully"
+        "message": "AI Exam Preparation Agent Running"
     }

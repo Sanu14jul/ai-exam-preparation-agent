@@ -1,20 +1,11 @@
-from app.graph.workflow import graph
+from app.orchestrator.graph_orchestrator import GraphOrchestrator
 
+orchestrator = GraphOrchestrator()
 
-result = graph.invoke(
-    {
-        "exam": "UPSC",
-        "hours_per_day": 5,
-        "months_left": 8,
-        "current_level": "Beginner",
-
-        "subject": "History",
-        "difficulty": "Medium",
-        "number_of_questions": 5,
-
-        "study_plan": None,
-        "quiz": None,
-    }
+result = orchestrator.execute(
+    user_id="sanu",
+    message="Create a UPSC study plan and then generate 5 History quiz questions."
 )
 
+print("\n========== FINAL OUTPUT ==========\n")
 print(result)

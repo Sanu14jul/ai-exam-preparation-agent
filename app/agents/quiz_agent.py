@@ -8,10 +8,10 @@ class QuizAgent(BaseAgent):
     AI Agent responsible for generating quizzes.
     """
 
-    def generate_quiz(self, user_prompt: str) -> QuizResponse:
+    def generate_quiz(self, prompt: str) -> QuizResponse:
 
         return self.generate(
             system_prompt=QUIZ_SYSTEM_PROMPT,
-            user_prompt=user_prompt,
+            user_prompt=prompt,
             response_model=QuizResponse,
         )
