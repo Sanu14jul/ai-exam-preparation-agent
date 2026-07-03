@@ -1,3 +1,5 @@
+import { FaArrowRight } from "react-icons/fa";
+
 export default function Button({
   children,
   type = "button",
@@ -8,11 +10,11 @@ export default function Button({
   disabled = false,
 }) {
   const baseClasses =
-    "rounded-xl px-5 py-3 font-semibold transition-all duration-300 flex items-center justify-center";
+    "rounded-xl px-5 py-3 font-semibold transition-all duration-300 flex items-center justify-center gap-2";
 
   const variants = {
     primary:
-      "bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg hover:shadow-indigo-500/30",
+      "bg-indigo-600 hover:bg-indigo-700 hover:scale-[1.02] text-white shadow-lg",
 
     secondary:
       "bg-slate-700 hover:bg-slate-600 text-white",
@@ -30,10 +32,12 @@ export default function Button({
         ${baseClasses}
         ${variants[variant]}
         ${fullWidth ? "w-full" : ""}
-        ${(loading || disabled) ? "opacity-60 cursor-not-allowed" : ""}
+        ${loading || disabled ? "opacity-60 cursor-not-allowed" : ""}
       `}
     >
       {loading ? "Loading..." : children}
+
+      {!loading && <FaArrowRight size={14} />}
     </button>
   );
 }
