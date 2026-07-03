@@ -1,12 +1,12 @@
 import DashboardLayout from "../../layouts/DashboardLayout";
 
-export default function Quiz() {
+export default function Upload() {
   return (
     <DashboardLayout>
 
       <h1 className="text-4xl font-bold">
 
-        Quiz Generator
+        Upload PDF
 
       </h1>
 
