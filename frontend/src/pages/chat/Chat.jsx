@@ -1,4 +1,8 @@
-import { useRef, useState, useEffect } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 import DashboardLayout from "../../layouts/DashboardLayout";
 
@@ -13,7 +17,7 @@ export default function Chat() {
     {
       sender: "assistant",
       message:
-        "Hello 👋\n\nI'm PrepMind AI.\n\nAsk me anything.",
+        "Hello 👋 I'm PrepMind AI.\nAsk me anything.",
     },
   ]);
 
@@ -47,70 +51,63 @@ export default function Chat() {
         message
       );
 
-      let aiMessage = "";
-
-      if (result.response.study_plan) {
-        aiMessage = JSON.stringify(
-          result.response.study_plan,
-          null,
-          2
-        );
-      } else if (result.response.quiz) {
-        aiMessage = JSON.stringify(
-          result.response.quiz,
-          null,
-          2
-        );
-      } else if (result.response.rag_answer) {
-        aiMessage =
-          result.response.rag_answer;
-      } else {
-        aiMessage =
-          "No response generated.";
-      }
-
       setMessages((prev) => [
         ...prev,
         {
           sender: "assistant",
-          message: aiMessage,
+          response: result.response,
         },
       ]);
-    } catch (err) {
+    } catch (error) {
+      console.error(error);
+
       setMessages((prev) => [
         ...prev,
         {
           sender: "assistant",
           message:
-            "❌ Backend Error",
+            "❌ Failed to contact AI server.",
         },
       ]);
-
-      console.log(err);
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   return (
     <DashboardLayout>
       <div className="max-w-5xl mx-auto">
 
-        <h1 className="text-4xl font-bold mb-8">
-          PrepMind AI 🤖
-        </h1>
+        <div className="mb-8">
 
-        <div className="bg-slate-900 rounded-2xl border border-slate-800 h-[65vh] overflow-y-auto p-6">
+             <h1 className="text-5xl font-bold">
+
+                      PrepMind AI
+
+             </h1>
+
+                 <p className="text-slate-400 mt-3">
+
+                    Your AI assistant for UPSC, SSC, Railway, BPSC and other competitive exams.
+
+                  </p>
+
+        </div>
+
+        <div className="bg-slate-900 border border-slate-800 rounded-2xl h-[65vh] overflow-y-auto p-6">
 
           {messages.map((msg, index) => (
             <ChatMessage
               key={index}
               sender={msg.sender}
               message={msg.message}
+              response={msg.response}
             />
           ))}
 
-          {loading && <TypingIndicator />}
+          {loading && (
+            <TypingIndicator />
+          )}
 
           <div ref={bottomRef} />
 
