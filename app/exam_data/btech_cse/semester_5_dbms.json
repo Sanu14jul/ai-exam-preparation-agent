@@ -1,0 +1,63 @@
+{
+    "subject":"Database Management System",
+
+    "semester":"5",
+
+    "units":[
+
+        {
+
+            "name":"ER Model",
+
+            "topics":[
+
+                "Introduction",
+
+                "Entities",
+
+                "Attributes",
+
+                "Relationships"
+
+            ]
+
+        },
+
+        {
+
+            "name":"Normalization",
+
+            "topics":[
+
+                "1NF",
+
+                "2NF",
+
+                "3NF",
+
+                "BCNF"
+
+            ]
+
+        },
+
+        {
+
+            "name":"SQL",
+
+            "topics":[
+
+                "DDL",
+
+                "DML",
+
+                "Joins",
+
+                "Subqueries"
+
+            ]
+
+        }
+
+    ]
+}

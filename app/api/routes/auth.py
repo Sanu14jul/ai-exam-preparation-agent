@@ -95,10 +95,16 @@ def login(
 
     token = create_access_token(
         {
-            "sub": user.email
+            "sub": user.email,
+            "user_id": user.id,
         }
     )
 
     return TokenResponse(
-        access_token=token
+        access_token=token,
+        user={
+            "id": user.id,
+            "username": user.username,
+            "email": user.email,
+        },
     )

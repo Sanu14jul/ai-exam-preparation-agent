@@ -30,13 +30,29 @@ export default function Login() {
 
       const data = await loginUser(email, password);
 
-      localStorage.setItem(
+          localStorage.setItem(
         "access_token",
         data.access_token
       );
 
+      localStorage.setItem(
+        "user_id",
+        data.user.id
+      );
+
+      localStorage.setItem(
+        "username",
+        data.user.username
+      );
+
+      localStorage.setItem(
+        "email",
+        data.user.email
+      );
+
       toast.success("Login Successful");
 
+      // Temporary
       navigate("/dashboard");
     } catch (error) {
       console.log(error);

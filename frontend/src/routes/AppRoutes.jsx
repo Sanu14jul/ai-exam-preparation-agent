@@ -9,108 +9,128 @@ import Register from "../pages/auth/Register";
 
 import Dashboard from "../pages/dashboard/Dashboard";
 
+import StudySession from "../pages/study-session/StudySession";
+
 import Planner from "../pages/planner/Planner";
-
 import Quiz from "../pages/quiz/Quiz";
-
 import Chat from "../pages/chat/Chat";
-
 import Upload from "../pages/upload/Upload";
-
 import History from "../pages/history/History";
+import Onboarding from "../pages/onboarding/Onboarding";
+import Profile from "../pages/profile/Profile";
 
 import ProtectedRoute from "./ProtectedRoute";
 
+
 export default function AppRoutes() {
-  return (
-    <Routes>
 
-      <Route
-        path="/"
-        element={<Navigate to="/login" />}
-      />
+    return (
 
-      <Route
-        path="/login"
-        element={<Login />}
-      />
+        <Routes>
 
-      <Route
-        path="/register"
-        element={<Register />}
-      />
+            <Route
+                path="/"
+                element={<Navigate to="/login" />}
+            />
 
-      <Route
-        path="/dashboard"
-        element={
-          <ProtectedRoute>
+            <Route
+                path="/login"
+                element={<Login />}
+            />
 
-            <Dashboard />
+            <Route
+                path="/register"
+                element={<Register />}
+            />
 
-          </ProtectedRoute>
-        }
-      />
+            <Route
+                path="/dashboard"
+                element={
+                    <ProtectedRoute>
+                        <Dashboard />
+                    </ProtectedRoute>
+                }
+            />
 
-      <Route
-        path="/planner"
-        element={
-          <ProtectedRoute>
+            <Route
+                path="/study-session"
+                element={
+                    <ProtectedRoute>
+                        <StudySession />
+                    </ProtectedRoute>
+                }
+            />
 
-            <Planner />
+            <Route
+                path="/planner"
+                element={
+                    <ProtectedRoute>
+                        <Planner />
+                    </ProtectedRoute>
+                }
+            />
 
-          </ProtectedRoute>
-        }
-      />
+            <Route
+                path="/quiz"
+                element={
+                    <ProtectedRoute>
+                        <Quiz />
+                    </ProtectedRoute>
+                }
+            />
 
-      <Route
-        path="/quiz"
-        element={
-          <ProtectedRoute>
+            <Route
+                path="/chat"
+                element={
+                    <ProtectedRoute>
+                        <Chat />
+                    </ProtectedRoute>
+                }
+            />
 
-            <Quiz />
+            <Route
+                path="/upload"
+                element={
+                    <ProtectedRoute>
+                        <Upload />
+                    </ProtectedRoute>
+                }
+            />
 
-          </ProtectedRoute>
-        }
-      />
+            <Route
+                path="/history"
+                element={
+                    <ProtectedRoute>
+                        <History />
+                    </ProtectedRoute>
+                }
+            />
 
-      <Route
-        path="/chat"
-        element={
-          <ProtectedRoute>
+            <Route
+                path="/profile"
+                element={
+                    <ProtectedRoute>
+                        <Profile />
+                    </ProtectedRoute>
+                }
+            />
 
-            <Chat />
+            <Route
+                path="/onboarding"
+                element={
+                    <ProtectedRoute>
+                        <Onboarding />
+                    </ProtectedRoute>
+                }
+            />
 
-          </ProtectedRoute>
-        }
-      />
+            <Route
+                path="*"
+                element={<Navigate to="/login" />}
+            />
 
-      <Route
-        path="/upload"
-        element={
-          <ProtectedRoute>
+        </Routes>
 
-            <Upload />
+    );
 
-          </ProtectedRoute>
-        }
-      />
-
-      <Route
-        path="/history"
-        element={
-          <ProtectedRoute>
-
-            <History />
-
-          </ProtectedRoute>
-        }
-      />
-
-      <Route
-        path="*"
-        element={<Navigate to="/login" />}
-      />
-
-    </Routes>
-  );
 }

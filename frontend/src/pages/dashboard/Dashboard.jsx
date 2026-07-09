@@ -1,63 +1,162 @@
+import { useEffect, useState } from "react";
+
 import DashboardLayout from "../../layouts/DashboardLayout";
 
+import DashboardCard from "../../components/dashboard/DashboardCard";
+
+import { getDashboard } from "../../services/dashboardService";
+
+import {
+
+    Brain,
+
+    BookOpen,
+
+    Calendar,
+
+    Flame,
+
+} from "lucide-react";
+
+
 export default function Dashboard() {
-  const cards = [
-    {
-      title: "Study Plans",
-      value: "12",
-    },
-    {
-      title: "AI Chats",
-      value: "8",
-    },
-    {
-      title: "Quizzes",
-      value: "21",
-    },
-    {
-      title: "Uploaded PDFs",
-      value: "4",
-    },
-  ];
 
-  return (
-    <DashboardLayout>
-      <h1 className="text-4xl font-bold mb-8">
-        Welcome to PrepMind AI 🚀
-      </h1>
+    const [dashboard, setDashboard] = useState(null);
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+    useEffect(() => {
 
-        {cards.map((card) => (
-          <div
-            key={card.title}
-            className="bg-slate-900 border border-slate-800 rounded-2xl p-6"
-          >
-            <p className="text-slate-400">
-              {card.title}
-            </p>
+        loadDashboard();
 
-            <h2 className="text-4xl font-bold mt-4">
-              {card.value}
-            </h2>
-          </div>
-        ))}
+    }, []);
 
-      </div>
+    async function loadDashboard() {
 
-      <div className="mt-10 rounded-2xl bg-slate-900 border border-slate-800 p-8">
+        try {
 
-        <h2 className="text-2xl font-bold">
-          Recent Activity
-        </h2>
+            const data = await getDashboard();
 
-        <p className="text-slate-400 mt-3">
-          Your AI study planner, quiz generator,
-          PDF assistant and chat history will
-          appear here.
-        </p>
+            setDashboard(data);
 
-      </div>
-    </DashboardLayout>
-  );
+        }
+
+        catch (err) {
+
+            console.log(err);
+
+        }
+
+    }
+
+    if (!dashboard)
+
+        return (
+
+            <DashboardLayout>
+
+                Loading...
+
+            </DashboardLayout>
+
+        );
+
+    return (
+
+        <DashboardLayout>
+
+            <div className="max-w-7xl mx-auto py-10">
+
+                <h1 className="text-5xl font-bold">
+
+                    👋 Welcome {dashboard.username}
+
+                </h1>
+
+                <p className="text-slate-400 mt-2">
+
+                    AI Coach is ready for today.
+
+                </p>
+
+                <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-6 mt-10">
+
+                    <DashboardCard
+
+                        title="Today's Mission"
+
+                        value={dashboard.today_mission}
+
+                        icon={<BookOpen className="text-blue-400"/>}
+
+                    />
+
+                    <DashboardCard
+
+                        title="Today's Quiz"
+
+                        value={dashboard.today_quiz}
+
+                        icon={<Brain className="text-green-400"/>}
+
+                    />
+
+                    <DashboardCard
+
+                        title="Exam Countdown"
+
+                        value={`${dashboard.days_left} Days`}
+
+                        icon={<Calendar className="text-yellow-400"/>}
+
+                    />
+
+                    <DashboardCard
+
+                        title="Study Streak"
+
+                        value={`${dashboard.study_streak} Day`}
+
+                        icon={<Flame className="text-red-400"/>}
+
+                    />
+
+                </div>
+
+                <div className="mt-10 bg-slate-900 border border-slate-800 rounded-3xl p-8">
+
+                    <h2 className="text-3xl font-bold">
+
+                        📈 Preparation Progress
+
+                    </h2>
+
+                    <div className="w-full h-5 bg-slate-800 rounded-full mt-6">
+
+                        <div
+
+                            className="h-5 bg-indigo-600 rounded-full"
+
+                            style={{
+
+                                width: `${dashboard.progress}%`
+
+                            }}
+
+                        />
+
+                    </div>
+
+                    <p className="mt-4 text-slate-300">
+
+                        {dashboard.progress}% Completed
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </DashboardLayout>
+
+    );
+
 }

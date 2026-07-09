@@ -1,0 +1,39 @@
+{
+    "exam": "B.Tech CSE",
+
+    "learning_track": "College",
+
+    "duration": "4 Years",
+
+    "quiz_type": "MCQ",
+
+    "supports_pyq": true,
+
+    "supports_current_affairs": false,
+
+    "subjects": [
+
+        "Programming",
+
+        "Data Structures",
+
+        "Algorithms",
+
+        "DBMS",
+
+        "Operating System",
+
+        "Computer Networks",
+
+        "Software Engineering",
+
+        "Python",
+
+        "Java",
+
+        "Artificial Intelligence",
+
+        "Machine Learning"
+
+    ]
+}

@@ -1,0 +1,31 @@
+{
+    "exam": "UPSC CSE",
+
+    "learning_track": "Competitive",
+
+    "quiz_type": "MCQ",
+
+    "supports_pyq": true,
+
+    "supports_current_affairs": true,
+
+    "subjects": [
+
+        "History",
+
+        "Geography",
+
+        "Polity",
+
+        "Economy",
+
+        "Environment",
+
+        "Science",
+
+        "Current Affairs",
+
+        "Ethics"
+
+    ]
+}
