@@ -1,0 +1,25 @@
+{
+    "exam": "CBSE Class 10",
+
+    "learning_track": "School",
+
+    "quiz_type": "MCQ",
+
+    "supports_pyq": true,
+
+    "supports_current_affairs": false,
+
+    "subjects": [
+
+        "Mathematics",
+
+        "Science",
+
+        "English",
+
+        "Social Science",
+
+        "Hindi"
+
+    ]
+}

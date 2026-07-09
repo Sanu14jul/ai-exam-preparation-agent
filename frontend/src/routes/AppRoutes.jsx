@@ -1,32 +1,136 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 
 import Dashboard from "../pages/dashboard/Dashboard";
-import Chat from "../pages/chat/Chat";
+
+import StudySession from "../pages/study-session/StudySession";
+
 import Planner from "../pages/planner/Planner";
 import Quiz from "../pages/quiz/Quiz";
+import Chat from "../pages/chat/Chat";
+import Upload from "../pages/upload/Upload";
+import History from "../pages/history/History";
+import Onboarding from "../pages/onboarding/Onboarding";
 import Profile from "../pages/profile/Profile";
 
+import ProtectedRoute from "./ProtectedRoute";
+
+
 export default function AppRoutes() {
-  return (
-    <Routes>
-      <Route path="/" element={<Navigate to="/login" />} />
 
-      <Route path="/login" element={<Login />} />
+    return (
 
-      <Route path="/register" element={<Register />} />
+        <Routes>
 
-      <Route path="/dashboard" element={<Dashboard />} />
+            <Route
+                path="/"
+                element={<Navigate to="/login" />}
+            />
 
-      <Route path="/chat" element={<Chat />} />
+            <Route
+                path="/login"
+                element={<Login />}
+            />
 
-      <Route path="/planner" element={<Planner />} />
+            <Route
+                path="/register"
+                element={<Register />}
+            />
 
-      <Route path="/quiz" element={<Quiz />} />
+            <Route
+                path="/dashboard"
+                element={
+                    <ProtectedRoute>
+                        <Dashboard />
+                    </ProtectedRoute>
+                }
+            />
 
-      <Route path="/profile" element={<Profile />} />
-    </Routes>
-  );
+            <Route
+                path="/study-session"
+                element={
+                    <ProtectedRoute>
+                        <StudySession />
+                    </ProtectedRoute>
+                }
+            />
+
+            <Route
+                path="/planner"
+                element={
+                    <ProtectedRoute>
+                        <Planner />
+                    </ProtectedRoute>
+                }
+            />
+
+            <Route
+                path="/quiz"
+                element={
+                    <ProtectedRoute>
+                        <Quiz />
+                    </ProtectedRoute>
+                }
+            />
+
+            <Route
+                path="/chat"
+                element={
+                    <ProtectedRoute>
+                        <Chat />
+                    </ProtectedRoute>
+                }
+            />
+
+            <Route
+                path="/upload"
+                element={
+                    <ProtectedRoute>
+                        <Upload />
+                    </ProtectedRoute>
+                }
+            />
+
+            <Route
+                path="/history"
+                element={
+                    <ProtectedRoute>
+                        <History />
+                    </ProtectedRoute>
+                }
+            />
+
+            <Route
+                path="/profile"
+                element={
+                    <ProtectedRoute>
+                        <Profile />
+                    </ProtectedRoute>
+                }
+            />
+
+            <Route
+                path="/onboarding"
+                element={
+                    <ProtectedRoute>
+                        <Onboarding />
+                    </ProtectedRoute>
+                }
+            />
+
+            <Route
+                path="*"
+                element={<Navigate to="/login" />}
+            />
+
+        </Routes>
+
+    );
+
 }

@@ -1,0 +1,4 @@
+OPENAI_API_KEY=your_openai_api_key
+DATABASE_URL=your_database_url
+JWT_SECRET=your_secret_key
+CHROMA_DB_PATH=./chroma_db
