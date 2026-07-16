@@ -1,87 +1,123 @@
-export default function UploadedDocumentCard({ document }) {
-  if (!document) {
+import { useWorkspace } from "../../context/WorkspaceContext";
+
+export default function UploadedDocumentCard() {
+
+    const { uploadInfo } = useWorkspace();
+
+    if (!uploadInfo) {
+
+        return (
+
+            <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8 text-center text-slate-500">
+
+                📄 No document uploaded yet.
+
+            </div>
+
+        );
+
+    }
+
     return (
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
 
-        <h2 className="text-xl font-bold mb-4">
-          📄 Uploaded Document
-        </h2>
+        <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
 
-        <div className="text-slate-500 text-center py-10">
-          No document uploaded yet.
+            <div className="flex justify-between">
+
+                <div>
+
+                    <h2 className="text-xl font-bold">
+
+                        📄 Active Document
+
+                    </h2>
+
+                    <p className="text-slate-400">
+
+                        Ready for AI
+
+                    </p>
+
+                </div>
+
+                <div className="text-green-400">
+
+                    ✅ Indexed
+
+                </div>
+
+            </div>
+
+            <div className="grid grid-cols-2 gap-4 mt-6">
+
+                <div className="bg-slate-800 rounded-xl p-4">
+
+                    <p className="text-slate-400 text-sm">
+
+                        File
+
+                    </p>
+
+                    <p className="mt-2 break-all">
+
+                        {uploadInfo.filename}
+
+                    </p>
+
+                </div>
+
+                <div className="bg-slate-800 rounded-xl p-4">
+
+                    <p className="text-slate-400 text-sm">
+
+                        Chunks
+
+                    </p>
+
+                    <p className="mt-2 text-indigo-400">
+
+                        {uploadInfo.chunks}
+
+                    </p>
+
+                </div>
+
+                <div className="bg-slate-800 rounded-xl p-4">
+
+                    <p className="text-slate-400 text-sm">
+
+                        Size
+
+                    </p>
+
+                    <p className="mt-2">
+
+                        {uploadInfo.size}
+
+                    </p>
+
+                </div>
+
+                <div className="bg-slate-800 rounded-xl p-4">
+
+                    <p className="text-slate-400 text-sm">
+
+                        Uploaded
+
+                    </p>
+
+                    <p className="mt-2">
+
+                        {uploadInfo.time}
+
+                    </p>
+
+                </div>
+
+            </div>
+
         </div>
 
-      </div>
     );
-  }
 
-  return (
-    <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-
-      <div className="flex justify-between items-center">
-
-        <div>
-
-          <h2 className="text-xl font-bold">
-            📄 Uploaded Document
-          </h2>
-
-          <p className="text-slate-400 mt-1">
-            Active document for AI
-          </p>
-
-        </div>
-
-        <div className="text-green-400 font-semibold">
-          ✅ Indexed
-        </div>
-
-      </div>
-
-      <div className="mt-6 grid grid-cols-2 gap-4">
-
-        <div className="bg-slate-800 rounded-xl p-4">
-          <p className="text-slate-400 text-sm">
-            File Name
-          </p>
-
-          <p className="mt-2 font-semibold break-all">
-            {document.filename}
-          </p>
-        </div>
-
-        <div className="bg-slate-800 rounded-xl p-4">
-          <p className="text-slate-400 text-sm">
-            Chunks
-          </p>
-
-          <p className="mt-2 text-indigo-400 font-bold">
-            {document.chunks}
-          </p>
-        </div>
-
-        <div className="bg-slate-800 rounded-xl p-4">
-          <p className="text-slate-400 text-sm">
-            File Size
-          </p>
-
-          <p className="mt-2">
-            {document.size}
-          </p>
-        </div>
-
-        <div className="bg-slate-800 rounded-xl p-4">
-          <p className="text-slate-400 text-sm">
-            Uploaded
-          </p>
-
-          <p className="mt-2">
-            {document.time}
-          </p>
-        </div>
-
-      </div>
-
-    </div>
-  );
 }

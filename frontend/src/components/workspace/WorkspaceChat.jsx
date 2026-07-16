@@ -1,31 +1,35 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 import ChatInput from "../chat/ChatInput";
 import ChatMessage from "../chat/ChatMessage";
 import TypingIndicator from "../chat/TypingIndicator";
-
 import AIQuickActions from "./AIQuickActions";
 
 import { sendMessage } from "../../services/chatService";
+import { useWorkspace } from "../../context/WorkspaceContext";
 
 export default function WorkspaceChat() {
 
-    const [messages, setMessages] = useState([
-        {
-            sender: "assistant",
-            message:
-                "👋 Welcome to PrepMind AI!\n\nYour uploaded PDF is ready.\n\nAsk me anything or use one of the AI Quick Actions below.",
-        },
-    ]);
+    const {
 
-    const [loading, setLoading] = useState(false);
+        messages,
+        setMessages,
+
+        loading,
+        setLoading,
+
+        uploadInfo,
+
+    } = useWorkspace();
 
     const bottomRef = useRef(null);
 
     useEffect(() => {
 
         bottomRef.current?.scrollIntoView({
+
             behavior: "smooth",
+
         });
 
     }, [messages, loading]);
@@ -34,35 +38,69 @@ export default function WorkspaceChat() {
 
         if (!message || loading) return;
 
+        if (!uploadInfo) {
+
+            setMessages(prev => [
+
+                ...prev,
+
+                {
+
+                    sender: "assistant",
+
+                    message:
+                        "📄 Please upload a PDF before asking questions."
+
+                }
+
+            ]);
+
+            return;
+
+        }
+
         const userId =
             localStorage.getItem("user_id") || "1";
 
-        setMessages((prev) => [
+        setMessages(prev => [
+
             ...prev,
+
             {
+
                 sender: "user",
+
                 message,
-            },
+
+            }
+
         ]);
 
         setLoading(true);
 
         try {
 
-            const result = await sendMessage(
-                userId,
-                message
-            );
+            const result =
+                await sendMessage(
+                    userId,
+                    message
+                );
 
-            setMessages((prev) => [
+            setMessages(prev => [
+
                 ...prev,
+
                 {
+
                     sender: "assistant",
+
                     response:
                         result.response ||
                         result.data?.response ||
-                        "No response received.",
-                },
+                        "No response received."
+
+                }
+
             ]);
 
         }
@@ -71,13 +109,19 @@ export default function WorkspaceChat() {
 
             console.error(error);
 
-            setMessages((prev) => [
+            setMessages(prev => [
+
                 ...prev,
+
                 {
+
                     sender: "assistant",
+
                     message:
-                        "❌ Failed to contact AI server.",
-                },
+                        "❌ Failed to contact AI server."
+
+                }
+
             ]);
 
         }
@@ -116,7 +160,15 @@ export default function WorkspaceChat() {
 
                     <p className="text-slate-400 mt-2">
 
-                        Ask questions about your uploaded study material.
+                        {
+
+                            uploadInfo
+
+                                ? `Currently chatting with: ${uploadInfo.filename}`
+
+                                : "Upload a PDF to start learning."
+
+                        }
 
                     </p>
 

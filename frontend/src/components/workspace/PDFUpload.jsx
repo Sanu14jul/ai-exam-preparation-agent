@@ -1,12 +1,14 @@
 import { useState } from "react";
-import workspaceService from "../../services/workspaceService";
 
-export default function PDFUpload({ setUploadInfo }) {
+import workspaceService from "../../services/workspaceService";
+import { useWorkspace } from "../../context/WorkspaceContext";
+
+export default function PDFUpload() {
+
+    const { setUploadInfo } = useWorkspace();
 
     const [selectedFile, setSelectedFile] = useState(null);
-
     const [uploading, setUploading] = useState(false);
-
     const [message, setMessage] = useState("");
 
     function formatFileSize(bytes) {
@@ -15,11 +17,8 @@ export default function PDFUpload({ setUploadInfo }) {
 
         const kb = bytes / 1024;
 
-        if (kb < 1024) {
-
+        if (kb < 1024)
             return `${kb.toFixed(1)} KB`;
-
-        }
 
         return `${(kb / 1024).toFixed(2)} MB`;
 
@@ -49,7 +48,7 @@ export default function PDFUpload({ setUploadInfo }) {
 
         if (!selectedFile) {
 
-            setMessage("Please choose a PDF.");
+            setMessage("Choose a PDF first.");
 
             return;
 
@@ -109,44 +108,31 @@ export default function PDFUpload({ setUploadInfo }) {
         <div className="bg-slate-900 rounded-3xl border border-slate-800 p-8">
 
             <h2 className="text-2xl font-bold">
-
                 📄 Upload Study Material
-
             </h2>
 
             <p className="text-slate-400 mt-2">
-
-                Upload PDF notes, books and PYQs.
-
+                Upload notes, books and PYQs.
             </p>
 
             <div className="mt-6 border-2 border-dashed border-slate-700 rounded-2xl p-8 text-center">
 
                 <input
-
                     type="file"
-
                     accept=".pdf"
-
                     onChange={handleFileChange}
-
                     className="block mx-auto"
-
                 />
 
-                {
+                {selectedFile && (
 
-                    selectedFile && (
+                    <div className="mt-5 text-green-400">
 
-                        <div className="mt-5 text-green-400">
+                        📄 {selectedFile.name}
 
-                            📄 {selectedFile.name}
+                    </div>
 
-                        </div>
-
-                    )
-
-                }
+                )}
 
                 <button
 
@@ -170,19 +156,15 @@ export default function PDFUpload({ setUploadInfo }) {
 
                 </button>
 
-                {
+                {message && (
 
-                    message && (
+                    <div className="mt-5">
 
-                        <div className="mt-5">
+                        {message}
 
-                            {message}
+                    </div>
 
-                        </div>
-
-                    )
-
-                }
+                )}
 
             </div>
 
