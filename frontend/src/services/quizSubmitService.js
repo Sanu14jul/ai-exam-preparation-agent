@@ -1,16 +1,12 @@
 import api from "../api/axios";
 
-export async function teachTopic(topic) {
+export async function submitQuiz(data) {
 
     const response = await api.post(
 
-        "/tutor/teach",
+        "/quiz/submit",
 
-        {
-
-            topic,
-
-        }
+        data,
 
     );
 

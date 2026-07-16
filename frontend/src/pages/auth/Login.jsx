@@ -18,37 +18,41 @@ export default function Login() {
 
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = async () => {
-    if (!email || !password) {
-      toast.error("Please fill all fields");
+      const handleLogin = async () => {
+        if (!email || !password) {
+          toast.error("Please fill all fields");
 
-      return;
-    }
+          return;
+        }
 
-    try {
-      setLoading(true);
+        try {
+          setLoading(true);
+    const response = await loginUser(
+        email,
+        password
+    );
 
-      const data = await loginUser(email, password);
+    const data = response.data;
 
-          localStorage.setItem(
+    localStorage.setItem(
         "access_token",
         data.access_token
-      );
+    );
 
-      localStorage.setItem(
+    localStorage.setItem(
         "user_id",
-        data.user.id
-      );
+        data.user.id.toString()
+    );
 
-      localStorage.setItem(
+    localStorage.setItem(
         "username",
         data.user.username
-      );
+    );
 
-      localStorage.setItem(
+    localStorage.setItem(
         "email",
         data.user.email
-      );
+    );
 
       toast.success("Login Successful");
 

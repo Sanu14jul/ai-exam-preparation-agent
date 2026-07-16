@@ -1,17 +1,9 @@
 import api from "../api/axios";
 
-export async function teachTopic(topic) {
+export async function startLearningSession() {
 
     const response = await api.post(
-
-        "/tutor/teach",
-
-        {
-
-            topic,
-
-        }
-
+        "/learning/session"
     );
 
     return response.data.data;

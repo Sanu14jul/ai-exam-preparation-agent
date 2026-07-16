@@ -48,7 +48,11 @@ export default function Register() {
     try {
       setLoading(true);
 
-      await registerUser(form);
+      await registerUser(
+    form.username,
+    form.email,
+    form.password
+    );
 
       toast.success("Registration Successful");
 
