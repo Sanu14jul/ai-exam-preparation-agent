@@ -1,6 +1,5 @@
 from fastapi import APIRouter
 from fastapi import Depends
-from fastapi import HTTPException
 
 from sqlalchemy.orm import Session
 
@@ -8,6 +7,7 @@ from app.database.database import get_db
 from app.database.crud import get_user_by_email
 
 from app.core.security import get_current_user
+from app.core.api_response import APIResponse
 
 from app.models.tutor import TutorRequest
 
@@ -37,9 +37,9 @@ def teach(
 
     if user is None:
 
-        raise HTTPException(
+        return APIResponse.error(
+            message="User not found.",
             status_code=404,
-            detail="User not found.",
         )
 
     tutor = TutorAgent()
@@ -48,4 +48,7 @@ def teach(
         request.topic
     )
 
-    return answer
+    return APIResponse.success(
+        message="Lesson generated successfully.",
+        data=answer,
+    )

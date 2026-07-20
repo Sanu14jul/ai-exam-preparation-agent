@@ -14,7 +14,7 @@ from app.database.crud import (
 from app.core.security import get_current_user
 
 from app.services.study_session_service import (
-    StudySessionService,
+    QuizSessionService,
 )
 
 router = APIRouter(
@@ -62,6 +62,6 @@ def start_session(
 
         )
 
-    service = StudySessionService()
+    service = QuizSessionService()
 
     return service.create_session(profile)

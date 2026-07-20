@@ -45,6 +45,7 @@ class GraphOrchestrator:
             "study_plan": None,
             "quiz": None,
             "rag_answer": None,
+            "notes": None,
         }
 
         db: Session = SessionLocal()
@@ -91,7 +92,19 @@ class GraphOrchestrator:
                     message=result["rag_answer"],
                 )
 
-            return result
+            if result.get("notes"):
+                return result["notes"]
+
+            if result.get("rag_answer"):
+                return result["rag_answer"]
+
+            if result.get("quiz"):
+                return result["quiz"]
+
+            if result.get("study_plan"):
+                return result["study_plan"]
+
+            return "No response generated."
 
         finally:
 

@@ -10,13 +10,16 @@ from app.models.quiz import QuizRequest
 
 from app.services.study_plan_service import StudyPlanService
 from app.services.quiz_service import QuizService
+from app.agents.notes_agent import NotesAgent
 
 
 router_agent = RouterAgent()
 rag_agent = RAGAgent()
+notes_agent = NotesAgent()
 
 planner_service = StudyPlanService()
 quiz_service = QuizService()
+
 
 
 def router_node(state: AgentState):
@@ -52,6 +55,9 @@ def rag_node(state: AgentState):
 
     return state
 
+def notes_node(state: AgentState):
+
+    return notes_agent.invoke(state)
 
 def quiz_node(state: AgentState):
 
@@ -76,6 +82,7 @@ builder.add_node("router", router_node)
 builder.add_node("planner", planner_node)
 builder.add_node("quiz", quiz_node)
 builder.add_node("rag", rag_node)
+builder.add_node("notes", notes_node)
 
 builder.add_edge(START, "router")
 
@@ -92,7 +99,9 @@ def router_condition(state: AgentState):
 
     if "rag" in agents:
         return "rag"
-
+    if "notes" in agents:
+        return "notes"
+    
     return END
 
 
@@ -103,6 +112,7 @@ builder.add_conditional_edges(
         "planner": "planner",
         "quiz": "quiz",
         "rag": "rag",
+        "notes": "notes",
         END: END,
     },
 )
@@ -111,5 +121,6 @@ builder.add_conditional_edges(
 builder.add_edge("planner", END)
 builder.add_edge("quiz", END)
 builder.add_edge("rag", END)
+builder.add_edge("notes", END)
 
 graph = builder.compile()

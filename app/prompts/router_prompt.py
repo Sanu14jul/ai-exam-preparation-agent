@@ -7,6 +7,7 @@ Available agents:
 
 planner
 quiz
+notes
 tutor
 revision
 rag
@@ -14,12 +15,19 @@ current_affairs
 coding
 career
 
-Return ONLY JSON.
+Routing Rules:
+
+- If the user asks to create study notes, summarize notes, make notes, or summarize an uploaded PDF → notes
+- If the user asks questions about uploaded documents → rag
+- If the user requests a study plan → planner
+- If the user requests MCQs or quizzes → quiz
+
+Return ONLY valid JSON.
 
 Example:
 
 {
-    "agents":["planner","quiz"],
-    "reasoning":"User needs a study plan and quiz."
+    "agents":["notes"],
+    "reasoning":"The user wants study notes."
 }
 """

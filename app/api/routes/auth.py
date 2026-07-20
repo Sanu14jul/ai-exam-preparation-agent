@@ -57,14 +57,17 @@ def register(
         ),
     )
 
-    return {
-        "message": "User registered successfully."
-    }
+    from app.core.api_response import APIResponse
+
+    return APIResponse.success(
+    message="User registered successfully.",
+    data=None,
+    )
 
 
 @router.post(
     "/login",
-    response_model=TokenResponse,
+    
 )
 def login(
     request: LoginRequest,
@@ -100,11 +103,16 @@ def login(
         }
     )
 
-    return TokenResponse(
-        access_token=token,
-        user={
-            "id": user.id,
-            "username": user.username,
-            "email": user.email,
+    from app.core.api_response import APIResponse
+
+    return APIResponse.success(
+        message="Login successful.",
+        data={
+            "access_token": token,
+            "user": {
+                "id": user.id,
+                "username": user.username,
+                "email": user.email,
+            },
         },
-    )
+)

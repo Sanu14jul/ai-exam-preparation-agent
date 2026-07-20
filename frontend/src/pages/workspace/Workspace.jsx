@@ -9,6 +9,7 @@ import ChatHistory from "../../components/workspace/ChatHistory";
 import PDFUpload from "../../components/workspace/PDFUpload";
 import UploadedDocumentCard from "../../components/workspace/UploadedDocumentCard";
 import WorkspaceChat from "../../components/workspace/WorkspaceChat";
+import NotesPanel from "../../features/notes/NotesPanel";
 
 export default function Workspace() {
   return (
@@ -31,6 +32,7 @@ export default function Workspace() {
               <UploadedDocumentCard />
 
               <WorkspaceChat />
+              <NotesPanel />
 
             </div>
 

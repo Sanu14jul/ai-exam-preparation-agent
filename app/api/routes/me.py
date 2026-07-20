@@ -8,6 +8,7 @@ from jose import jwt
 from fastapi.security import OAuth2PasswordBearer
 
 from app.core.config import settings
+from app.core.api_response import APIResponse
 
 
 router = APIRouter(
@@ -35,11 +36,14 @@ def me(
             ],
         )
 
-        return payload
+        return APIResponse.success(
+            message="User fetched successfully.",
+            data=payload,
+        )
 
     except JWTError:
 
-        raise HTTPException(
+        return APIResponse.error(
+            message="Invalid token.",
             status_code=401,
-            detail="Invalid Token",
         )

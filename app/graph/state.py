@@ -19,3 +19,4 @@ class AgentState(TypedDict):
     study_plan: Optional[dict]
     quiz: Optional[dict]
     rag_answer: str | None
+    notes: str | None

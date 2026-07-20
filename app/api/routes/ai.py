@@ -2,22 +2,22 @@ from datetime import date
 
 from fastapi import APIRouter
 from fastapi import Depends
-from fastapi import HTTPException
 
 from sqlalchemy.orm import Session
 
 from app.database.database import get_db
-from app.database.crud import get_user_by_email
-from app.database.crud import get_student_profile
-
-from app.core.security import get_current_user
-
-from app.models.ai_chat import (
-    AIChatRequest,
-    AIChatResponse,
+from app.database.crud import (
+    get_user_by_email,
+    get_student_profile,
 )
 
+from app.core.security import get_current_user
+from app.core.api_response import APIResponse
+
+from app.models.ai_chat import AIChatRequest
+
 from app.agents.master_agent import MasterAgent
+from app.services.learning_service import LearningService
 
 
 router = APIRouter(
@@ -26,10 +26,11 @@ router = APIRouter(
 )
 
 
-@router.post(
-    "/chat",
-    response_model=AIChatResponse,
-)
+# =====================================================
+# AI CHAT
+# =====================================================
+
+@router.post("/chat")
 def chat(
 
     request: AIChatRequest,
@@ -47,23 +48,33 @@ def chat(
 
     if user is None:
 
-        raise HTTPException(
+        return APIResponse.error(
+            message="User not found.",
             status_code=404,
-            detail="User not found.",
         )
 
     master = MasterAgent()
 
     result = master.process_request(
+
         user_id=user.id,
+
         user_message=request.message,
+
     )
 
-    return AIChatResponse(
-        success=True,
-        response=result,
+    return APIResponse.success(
+
+        message="AI response generated successfully.",
+
+        data=result,
+
     )
 
+
+# =====================================================
+# DASHBOARD
+# =====================================================
 
 @router.get("/dashboard")
 def dashboard(
@@ -78,25 +89,59 @@ def dashboard(
         db,
         payload["sub"],
     )
+    print("=" * 50)
+    print("JWT email:", payload["sub"])
+    print("Database user id:", user.id if user else None)
+    print("=" * 50)
 
     if user is None:
 
-        raise HTTPException(
+        return APIResponse.error(
+            message="User not found.",
             status_code=404,
-            detail="User not found.",
         )
 
     profile = get_student_profile(
         db=db,
         user_id=user.id,
     )
+    print("Profile found:", profile)
 
     if profile is None:
 
-        raise HTTPException(
+        return APIResponse.error(
+            message="Student profile not found.",
             status_code=404,
-            detail="Student profile not found.",
         )
+
+    learning = LearningService()
+
+    average_score = learning.calculate_average_score(
+        db,
+        user.id,
+    )
+
+    study_time = learning.calculate_total_study_time(
+        db,
+        user.id,
+    )
+
+    weak_topics = learning.weak_topics(
+        db,
+        user.id,
+    )
+
+    strong_topics = learning.strong_topics(
+        db,
+        user.id,
+    )
+
+    completed_sessions = len(
+        learning.get_history(
+            db,
+            user.id,
+        )
+    )
 
     days_left = None
 
@@ -106,7 +151,7 @@ def dashboard(
             profile.exam_date - date.today()
         ).days
 
-    return {
+    dashboard_data = {
 
         "username": user.username,
 
@@ -118,10 +163,6 @@ def dashboard(
 
         "daily_hours": profile.daily_study_hours,
 
-        "weak_subjects": profile.weak_subjects,
-
-        "strong_subjects": profile.strong_subjects,
-
         "target_score": profile.target_score,
 
         "days_left": days_left,
@@ -130,8 +171,26 @@ def dashboard(
 
         "today_quiz": f"{profile.weak_subjects} Quiz",
 
-        "progress": 25,
+        "average_score": average_score,
 
-        "study_streak": 1,
+        "study_time": study_time,
+
+        "completed_sessions": completed_sessions,
+
+        "weak_topics": weak_topics,
+
+        "strong_topics": strong_topics,
+
+        "progress": average_score,
+
+        "study_streak": completed_sessions,
 
     }
+
+    return APIResponse.success(
+
+        message="Dashboard loaded successfully.",
+
+        data=dashboard_data,
+
+    )
